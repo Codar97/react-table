@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import classnames from 'classnames'
+import Waypoint from 'react-waypoint'
 //
 import _ from './utils'
 import Lifecycle from './lifecycle'
@@ -42,6 +43,7 @@ export default class ReactTable extends Methods(Lifecycle(Component)) {
       resized: props.defaultResized,
       currentlyResizing: false,
       skipNextSort: false,
+      bottomOffset: '-50%',
     }
   }
 
@@ -847,6 +849,15 @@ export default class ReactTable extends Methods(Lifecycle(Component)) {
             >
               {pageRows.map((d, i) => makePageRow(d, i))}
               {padRows.map(makePadRow)}
+              <Waypoint
+
+                  onPositionChange={()=>{this.setState({bottomOffset:"-50%"})}}
+              bottomOffset={this.state.bottomOffset}
+              onEnter={() => {
+                  let newPageSize = this.state.pageSize + 30;
+                  this.onPageSizeChange(newPageSize);
+              }}
+              />
             </TbodyComponent>
             {hasColumnFooter ? makeColumnFooters() : null}
           </TableComponent>
